@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Celebration</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mogra&display=swap" rel="stylesheet">
+
+
+    <style>
+        .balloon {
+            animation: float 8s ease-in-out 1 forwards;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh);
+            }
+
+            100% {
+                transform: translateY(-100vh);
+            }
+        }
+    </style>
+
+
+
+</head>
+
+<body class="bg-gradient-to-r from-[#ff9a9e] to-[#fad0c4] overflow-hidden">
+
+    <!-- Main Container -->
+    <div class="min-h-screen flex flex-col items-center justify-center text-center p-6 sm:p-12">
+
+        <!-- Heading: Mobile par 50px, Tablet par 80px, Desktop par 120px -->
+        <h1
+            class="font-[Mogra] text-[50px] sm:text-[80px] md:text-[100px] lg:text-[100px] leading-tight text-white drop-shadow-xl mb-4">
+            Happy Birthday!
+        </h1>
+
+
+        <!-- Paragraph: Mobile par 1.2rem, Desktop par 2rem -->
+        <p id="typed"
+            class="max-w-4xl text-lg sm:text-2xl md:text-2xl font-medium text-white/90 drop-shadow-md leading-relaxed">
+
+        </p>
+        <div>
+            <img src="./images/cake.png" alt="Birthday Cake" class="w-48 sm:w-64 md:w-80 lg:w-82 mt-8 drop-shadow-lg">
+        </div>
+
+
+
+        <audio id="MyAudio" src="./audio/hbd_2.mp3"></audio>
+
+    </div>
+
+    <div class="balloon absolute bottom-0">
+        <img src="./images/Balloon-Border.png" alt="">
+    </div>
+
+
+
+
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.9.1/tsparticles.confetti.bundle.min.js"></script>
+
+
+    <script>
+        window.onload = () => {
+
+            const duration = 15 * 1000,
+                animationEnd = Date.now() + duration,
+                defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function () {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+
+                // since particles fall down, start a bit higher than random
+                confetti(
+                    Object.assign({}, defaults, {
+                        particleCount,
+                        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                    })
+                );
+                confetti(
+                    Object.assign({}, defaults, {
+                        particleCount,
+                        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                    })
+                );
+            }, 250);
+
+
+        };
+
+
+
+        // Type Effect Function 
+        function typeEffect(elementId, text, speed) {
+            let i = 0;
+            const element = document.getElementById(elementId);
+            element.innerHTML = ""; // Pehle purana text clear karein
+
+            function typing() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typing, speed);
+                }
+            }
+            typing();
+        }
+
+        typeEffect("typed", "Wishing you a day filled with love, laughter, and unforgettable moments. May this year bring you endless joy and success. Happy Birthday!", 50);
+
+        function playAudio() {
+            var audio = document.getElementById("MyAudio");
+            audio.play();
+
+            addEventListener("click", function () {
+                if (audio.paused) {
+                    audio.play();
+                }
+            });
+
+            //Browser Minize audio pause
+            document.addEventListener("visibilitychange", function () {
+                if (document.hidden) {
+                    audio.pause();
+
+                } else {
+                    audio.play();
+
+                }
+            });
+
+        };
+        playAudio();
+
+
+
+
+    </script>
+</body>
+
+</html>
